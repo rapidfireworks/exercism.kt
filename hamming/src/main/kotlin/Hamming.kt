@@ -23,7 +23,7 @@ object Hamming {
       IllegalArgumentException("left and right strands must be of equal length") {}
 }
 
-class Graphemes : Iterable<String>, Iterator<String> {
+class Graphemes : Iterator<String> {
 
   val text: String
   val iterator: BreakIterator
@@ -35,10 +35,6 @@ class Graphemes : Iterable<String>, Iterator<String> {
     this.iterator = BreakIterator.getCharacterInstance().apply { setText(text) }
     this.startIndex = this.iterator.first()
     this.endIndex = this.iterator.next()
-  }
-
-  override operator fun iterator(): Iterator<String> {
-    return this
   }
 
   override operator fun hasNext(): Boolean {
