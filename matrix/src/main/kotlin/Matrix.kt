@@ -8,14 +8,7 @@ data class Matrix(val matrix: List<List<Int>>) {
     fun parse(matrix: String, lnRegex: Regex, spRegex: Regex): List<List<Int>> {
       var result = mutableListOf<List<Int>>()
       for (line in matrix.split(lnRegex)) {
-        var elements = mutableListOf<Int>()
-        for (letter in line.split(spRegex)) {
-          val element = letter.toIntOrNull()
-          if (element != null) {
-            elements.add(element)
-          }
-        }
-        result.add(elements)
+        result.add(line.split(spRegex).mapNotNull(String::toIntOrNull))
       }
       return result
     }
