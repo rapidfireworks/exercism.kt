@@ -17,11 +17,7 @@ data class Matrix(val matrix: List<List<Int>>) {
   }
 
   fun column(colNr: Int): List<Int> {
-    var result = mutableListOf<Int>()
-    for (line in matrix) {
-      result.add(line[colNr - 1])
-    }
-    return result
+    return matrix.map { it[colNr - 1] }
   }
 
   fun row(rowNr: Int): List<Int> {
