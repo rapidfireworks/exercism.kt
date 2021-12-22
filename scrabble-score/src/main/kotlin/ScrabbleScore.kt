@@ -3,11 +3,15 @@ import java.text.BreakIterator
 object ScrabbleScore {
 
   fun scoreLetter(c: Char): Int {
-    return scoreLetter(c.toString())
+    return scoreGrapheme(c.toString())
   }
 
-  fun scoreLetter(letter: String): Int {
-    return when (letter) {
+  fun scoreWord(word: String): Int {
+    return Graphemes(word.uppercase()).sumOf(::scoreGrapheme)
+  }
+
+  fun scoreGrapheme(grapheme: String): Int {
+    return when (grapheme) {
       "A", "E", "I", "O", "U", "L", "N", "R", "S", "T" -> 1
       "D", "G" -> 2
       "B", "C", "M", "P" -> 3
@@ -19,37 +23,32 @@ object ScrabbleScore {
     }
   }
 
-  fun scoreWord(word: String): Int {
-    return Graphemes(word.uppercase()).sumOf(::scoreLetter)
-  }
-}
+  class Graphemes : Iterator<String>, Iterable<String> {
+    val text: String
+    val iterator: BreakIterator
+    var startIndex: Int
+    var endIndex: Int
 
-class Graphemes : Iterable<String>, Iterator<String> {
+    constructor(text: String) {
+      this.text = text
+      this.iterator = BreakIterator.getCharacterInstance().apply { setText(text) }
+      this.startIndex = this.iterator.first()
+      this.endIndex = this.iterator.next()
+    }
 
-  val text: String
-  val iterator: BreakIterator
-  var startIndex: Int
-  var endIndex: Int
+    override fun hasNext(): Boolean {
+      return endIndex != BreakIterator.DONE
+    }
 
-  constructor(text: String) {
-    this.text = text
-    this.iterator = BreakIterator.getCharacterInstance().apply { setText(text) }
-    this.startIndex = this.iterator.first()
-    this.endIndex = this.iterator.next()
-  }
+    override fun next(): String {
+      val result = text.substring(startIndex, endIndex)
+      startIndex = endIndex
+      endIndex = iterator.next()
+      return result
+    }
 
-  override fun hasNext(): Boolean {
-    return endIndex != BreakIterator.DONE
-  }
-
-  override fun next(): String {
-    val result = text.substring(startIndex, endIndex)
-    startIndex = endIndex
-    endIndex = iterator.next()
-    return result
-  }
-
-  override fun iterator(): Iterator<String> {
-    return this
+    override fun iterator(): Iterator<String> {
+      return this
+    }
   }
 }
