@@ -1,17 +1,17 @@
 data class Matrix(val matrix: List<List<Int>>) {
 
-  constructor(matrix: String) : this(parse(matrix, """\p{Z}*\n\p{Z}*""", """\p{Z}+"""))
+  constructor(matrix: String) : this(parseMatrix(matrix, """\R""", """\p{Zs}+"""))
 
   companion object {
-    fun parse(matrix: String, lnRegex: String, spRegex: String): List<List<Int>> {
-      return parse(matrix, Regex(lnRegex), Regex(spRegex))
+    fun parseMatrix(matrix: String, lnRegex: String, spRegex: String): List<List<Int>> {
+      return parseMatrix(matrix, Regex(lnRegex), Regex(spRegex))
     }
 
-    fun parse(matrix: String, lnRegex: Regex, spRegex: Regex): List<List<Int>> {
-      return matrix.split(lnRegex).map { parse(it, spRegex) }
+    fun parseMatrix(matrix: String, lnRegex: Regex, spRegex: Regex): List<List<Int>> {
+      return matrix.split(lnRegex).map { parseLine(it, spRegex) }
     }
 
-    fun parse(line: String, spRegex: Regex): List<Int> {
+    fun parseLine(line: String, spRegex: Regex): List<Int> {
       return line.split(spRegex).mapNotNull(String::toIntOrNull)
     }
   }
