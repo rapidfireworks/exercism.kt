@@ -7,11 +7,11 @@ object ScrabbleScore {
   }
 
   fun scoreWord(word: String): Int {
-    return Graphemes(word.uppercase()).sumOf(::scoreGrapheme)
+    return Graphemes(word).sumOf(::scoreGrapheme)
   }
 
   fun scoreGrapheme(grapheme: String): Int {
-    return when (grapheme) {
+    return when (grapheme.uppercase()) {
       "A", "E", "I", "O", "U", "L", "N", "R", "S", "T" -> 1
       "D", "G" -> 2
       "B", "C", "M", "P" -> 3
