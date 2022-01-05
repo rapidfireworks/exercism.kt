@@ -13,14 +13,24 @@ data class Squares(val n: Int) {
   }
 
   fun pow(base: Int, exp: Int): Int {
-    if (exp < 0) {
-      return 0
-    } else {
-      var result = 1
-      for (_index in 1..exp) {
-        result *= base
+    return when {
+      0 < exp -> {
+        var result = base
+        var exponent = 1
+        val halfExp = exp / 2
+        while (exponent < exp) {
+          if (halfExp < exponent) {
+            result *= base
+            exponent += 1
+          } else {
+            result *= result
+            exponent *= 2
+          }
+        }
+        result
       }
-      return result
+      exp == 0 -> 1
+      else -> 0
     }
   }
 }
