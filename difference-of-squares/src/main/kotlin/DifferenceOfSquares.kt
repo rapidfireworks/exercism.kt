@@ -13,24 +13,18 @@ data class Squares(val n: Int) {
   }
 
   fun pow(base: Int, exp: Int): Int {
-    return when {
-      0 < exp -> {
-        var result = base
-        var exponent = 1
-        val halfExp = exp / 2
-        while (exponent < exp) {
-          if (halfExp < exponent) {
-            result *= base
-            exponent += 1
-          } else {
-            result *= result
-            exponent *= 2
-          }
-        }
-        result
-      }
-      exp == 0 -> 1
-      else -> 0
+    return pow(base, exp, 1)
+  }
+
+  tailrec fun pow(base: Int, exp: Int, multiplier: Int): Int {
+    if (exp < 0) {
+      return 0
+    } else if (exp < 1) {
+      return multiplier
+    } else if (0 < exp % 2) {
+      return pow(base, exp - 1, multiplier * base)
+    } else {
+      return pow(base * base, exp / 2, multiplier)
     }
   }
 }
