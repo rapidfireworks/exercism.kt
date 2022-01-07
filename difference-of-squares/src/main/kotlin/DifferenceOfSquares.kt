@@ -17,14 +17,16 @@ data class Squares(val n: Int) {
   }
 
   tailrec fun pow(base: Int, exp: Int, multiplier: Int): Int {
-    if (exp < 0) {
-      return 0
-    } else if (exp < 1) {
-      return multiplier
-    } else if (0 < exp % 2) {
-      return pow(base, exp - 1, multiplier * base)
+    if (0 < exp) {
+      return when (exp % 2) {
+        0 -> pow(base * base, exp / 2, multiplier)
+        else -> pow(base, exp - 1, multiplier * base)
+      }
     } else {
-      return pow(base * base, exp / 2, multiplier)
+      return when (exp) {
+        0 -> multiplier
+        else -> 0
+      }
     }
   }
 }
