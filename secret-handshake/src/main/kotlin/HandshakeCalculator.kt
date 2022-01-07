@@ -1,4 +1,5 @@
 object HandshakeCalculator {
+
   fun calculateHandshake(number: Int): List<Signal> {
     val result = mutableListOf<Signal>()
     for (operation in operations(number)) {
