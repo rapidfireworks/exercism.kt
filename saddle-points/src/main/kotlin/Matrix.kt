@@ -11,24 +11,8 @@ data class Matrix(val matrix: List<List<Int>>) {
       if (matrix.isEmpty()) {
         return setOf()
       } else {
-        val maxOfRows = mutableListOf<Int>()
-        for (row in matrix) {
-          val value = row.maxOrNull()
-          if (value != null) {
-            maxOfRows.add(value)
-          }
-        }
-        val minOfCols = mutableListOf<Int>()
-        for (col in matrix[0].indices) {
-          val values = mutableListOf<Int>()
-          for (row in matrix.indices) {
-            values.add(matrix[row][col])
-          }
-          val value = values.minOrNull()
-          if (value != null) {
-            minOfCols.add(value)
-          }
-        }
+        val maxOfRows = matrix.mapNotNull { it.maxOrNull() }
+        val minOfCols = minOfCols(matrix)
         val result = mutableSetOf<MatrixCoordinate>()
         for (row in matrix.indices) {
           for (col in matrix[row].indices) {
@@ -40,6 +24,21 @@ data class Matrix(val matrix: List<List<Int>>) {
         }
         return result
       }
+    }
+
+    fun minOfCols(matrix: List<List<Int>>): List<Int> {
+      val result = mutableListOf<Int>()
+      for (col in matrix[0].indices) {
+        val values = mutableListOf<Int>()
+        for (row in matrix.indices) {
+          values.add(matrix[row][col])
+        }
+        val value = values.minOrNull()
+        if (value != null) {
+          result.add(value)
+        }
+      }
+      return result
     }
   }
 }
