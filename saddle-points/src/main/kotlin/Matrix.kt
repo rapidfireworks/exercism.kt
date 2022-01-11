@@ -29,7 +29,7 @@ data class Matrix(val matrix: List<List<Int>>) {
         val result = mutableListOf<Int>()
         for ((index, value) in matrix[0].withIndex()) {
           var minValue = value
-          for (row in matrix.drop(1)) {
+          for (row in matrix) {
             val newValue = row[index]
             if (newValue < minValue) {
               minValue = newValue
