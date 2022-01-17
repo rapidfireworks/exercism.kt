@@ -20,20 +20,18 @@ object Flattener {
     }
   }
 
-  fun <T : Any> nestedList(source: Collection<Any?>, type: KClass<T>): ColNestedList<T> {
-    val result = mutableListOf<NestedList<T>>()
-    for (element in source) {
-      if (type.isInstance(element)) {
-        result.add(ValNestedList(type.cast(element)))
-      } else {
-        when (element) {
-          null -> continue
-          is Collection<Any?> -> result.add(nestedList(element, type))
-          else -> throw IllegalArgumentException()
+  fun <T : Any> nestedList(source: Any?, type: KClass<T>): NestedList<T> {
+    return when (source) {
+      null -> ColNestedList(listOf())
+      is Collection<Any?> -> ColNestedList(source.map { nestedList(it, type) })
+      else -> {
+        if (type.isInstance(source)) {
+          ValNestedList(type.cast(source))
+        } else {
+          throw IllegalArgumentException()
         }
       }
     }
-    return ColNestedList(result)
   }
 }
 
