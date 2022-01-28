@@ -1,11 +1,34 @@
-class BankAccount {
-    // TODO: implement read access to 'balance'
+import java.util.concurrent.atomic.AtomicReference
 
-    fun adjustBalance(amount: Long){
-        TODO("Implement the function to complete the task")
-    }
+data class BankAccount(val state: AtomicReference<State> = AtomicReference(State(0, false))) {
+  data class State(var amount: Long, var isClosed: Boolean)
 
-    fun close() {
-        TODO("Implement the function to complete the task")
+  val balance: Long
+    get() = getUnlessClosed().amount
+
+  fun adjustBalance(amount: Long) = getAndUpdateUnlessClosed {
+    State(it.amount + amount, it.isClosed)
+  }
+
+  fun close() = getAndUpdateUnlessClosed {
+    State(it.amount, true)
+  }
+
+  fun getUnlessClosed(): State = state.get().run {
+    if (isClosed) {
+      throw IllegalStateException()
+    } else {
+      this
     }
+  }
+
+  fun getAndUpdateUnlessClosed(transform: (State) -> State) {
+    state.getAndUpdate {
+      if (it.isClosed) {
+        throw IllegalStateException()
+      } else {
+        transform(it)
+      }
+    }
+  }
 }
