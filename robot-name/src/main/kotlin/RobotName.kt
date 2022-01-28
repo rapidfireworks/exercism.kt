@@ -1,3 +1,5 @@
+import java.util.concurrent.ConcurrentHashMap
+
 data class Robot(var name: String) {
 
   constructor() : this(uniqueName()!!)
@@ -7,15 +9,15 @@ data class Robot(var name: String) {
   }
 
   companion object {
-    val created = mutableSetOf<String>()
+    val didCreate = ConcurrentHashMap<String, Boolean>()
 
     fun uniqueName(): String? {
       val limit = 26 * 26 * 1000
-      while (created.size <= limit) {
+      while (didCreate.size <= limit) {
         val result = name()
-        if (!created.contains(result)) {
-          created.add(result)
-          return result
+        when (didCreate.put(result, true)) {
+          null -> return result
+          else -> continue
         }
       }
       return null
