@@ -1,35 +1,33 @@
-import java.util.concurrent.ConcurrentHashMap
-
 data class Robot(var name: String) {
-
-  constructor() : this(uniqueName()!!)
+  constructor() : this(NameGenerator.uniqueName()!!)
 
   fun reset() {
-    name = uniqueName()!!
+    name = NameGenerator.uniqueName()!!
+  }
+}
+
+object NameGenerator {
+  val didCreate = mutableSetOf<String>()
+
+  tailrec fun uniqueName(): String? = synchronized(this) {
+    return if (didCreate.size < 676_000) {
+      val result = name()
+      if (didCreate.add(result)) {
+        result
+      } else {
+        uniqueName()
+      }
+    } else {
+      null
+    }
   }
 
-  companion object {
-    val didCreate = ConcurrentHashMap<String, Boolean>()
-
-    fun uniqueName(): String? {
-      val limit = 26 * 26 * 1000
-      while (didCreate.size <= limit) {
-        val result = name()
-        when (didCreate.put(result, true)) {
-          null -> return result
-          else -> continue
-        }
-      }
-      return null
+  fun name(): String {
+    val builder = StringBuilder()
+    for (_count in 0 until 2) {
+      builder.append(('A'..'Z').random())
     }
-
-    fun name(): String {
-      val builder = StringBuilder()
-      for (_count in 0 until 2) {
-        builder.append(('A'..'Z').random())
-      }
-      builder.append("%03d".format((0 until 1000).random()))
-      return builder.toString()
-    }
+    builder.append("%03d".format((0 until 1000).random()))
+    return builder.toString()
   }
 }
