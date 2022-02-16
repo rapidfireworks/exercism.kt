@@ -2,13 +2,15 @@ object Pangram {
 
   val alphabetCount = ('a'..'z').count()
 
-  fun isPangram(input: String): Boolean {
-    val set = mutableSetOf<String>()
-    for (rune in input) {
-      if (rune.isLetter()) {
-        set.add(rune.lowercase())
+  fun isPangram(input: String): Boolean = lowercaseLetters(input).size == alphabetCount
+
+  fun lowercaseLetters(input: String): Set<String> {
+    return mutableSetOf<String>().apply {
+      for (rune in input) {
+        if (rune.isLetter()) {
+          add(rune.lowercase())
+        }
       }
     }
-    return set.size == alphabetCount
   }
 }
