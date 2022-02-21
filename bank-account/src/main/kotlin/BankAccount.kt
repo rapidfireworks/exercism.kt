@@ -1,7 +1,7 @@
 import java.util.concurrent.atomic.AtomicReference
 
 data class BankAccount(val state: AtomicReference<State> = AtomicReference(State(0, false))) {
-  data class State(var amount: Long, var isClosed: Boolean)
+  data class State(val amount: Long, val isClosed: Boolean)
 
   val balance: Long
     get() = getUnlessClosed().amount
