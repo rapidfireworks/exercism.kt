@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7f904e27-9ffd-4756-99ab-cb91c96bc154" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../pig-latin/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../pig-latin/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,7 +42,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
-  <component name="RunManager" selected="Gradle.ComplexNumberTest">
+  <component name="RunManager" selected="Kotlin.ComplexNumberKt">
     <configuration name="ComplexNumberTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -112,8 +112,16 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
+    <configuration name="ComplexNumberKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ComplexNumberKt" />
+      <module name="complex-numbers.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Kotlin.ComplexNumberKt" />
         <item itemvalue="Gradle.ComplexNumberTest" />
         <item itemvalue="Gradle.ComplexNumberTest.testExponentialOfPurelyImaginaryNumber" />
         <item itemvalue="Gradle.ComplexNumberTest.testConjugationOfPurelyRealNumber" />
